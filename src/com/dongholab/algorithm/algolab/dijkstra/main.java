@@ -48,12 +48,10 @@ public class main {
             boolean[] visit = new boolean[edgeSize];
             int[] append = new int[edgeSize];
             Edge[] dest = new Edge[edgeSize];
-            for (int i = 0; i < edgeSize; i++) {
-                if (i == 0) {
-                    dest[i] = new Edge(i,0);
-                } else {
-                    dest[i] = new Edge(i, Integer.MAX_VALUE);
-                }
+            dest[0] = new Edge(0,0);
+            pq.add(dest[0]);
+            for (int i = 1; i < edgeSize; i++) {
+                dest[i] = new Edge(i, Integer.MAX_VALUE);
                 pq.add(dest[i]);
             }
             while (!pq.isEmpty()) {

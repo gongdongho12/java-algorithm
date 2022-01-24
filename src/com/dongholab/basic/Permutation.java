@@ -47,7 +47,7 @@ public class Permutation {
         List<List<T>> result = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             var v = list.get(i);
-            var rest = new ArrayList<T>(list.subList(0, i));
+            var rest = new ArrayList<>(list.subList(0, i));
             rest.addAll(list.subList(i + 1, length));
             var permutations = permutation2(rest, num - 1);
             var attach = permutations.stream().map(permutation -> {

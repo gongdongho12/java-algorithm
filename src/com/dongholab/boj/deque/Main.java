@@ -8,8 +8,117 @@ public class Main {
         System.out.println(value == null ? -1 : value);
     }
 
+    public static class LinkedNode<T> {
+        private Node head;
+        private Node tail;
+
+        private int size = 0;
+
+        private class Node {
+            private T data = null;
+            private Node next;
+
+            public Node(T input) {
+                this.data = input;
+                this.next = null;
+            }
+        }
+
+        public void addFirst(T input) {
+            Node newNode = new Node(input);
+            newNode.next = head;
+            head = newNode;
+            size++;
+            if (head.next == null) {
+                tail = head;
+            }
+        }
+
+        public void addLast(T input) {
+            Node newNode = new Node(input);
+            if (size == 0) {
+                addFirst(input);
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+                size++;
+            }
+        }
+
+        Node getNode(int index) {
+            Node x = head;
+            for (int i = 0; i < index; i++)
+                x = x.next;
+            return x;
+        }
+
+        public T get(int k) {
+            Node temp = getNode(k);
+            return temp.data;
+        }
+
+        public T first() {
+            if (size >= 1) {
+                return get(0);
+            } else {
+                return null;
+            }
+        }
+
+        public T last() {
+            if (size >= 1) {
+                return get(size - 1);
+            } else {
+                return null;
+            }
+        }
+
+        public T removeFirst() {
+            if (size >= 1) {
+                Node temp = head;
+                head = temp.next;
+                T returnData = temp.data;
+                size--;
+                return returnData;
+            } else {
+                return null;
+            }
+        }
+
+        public T remove(int k) {
+            if (size >= 1) {
+                if (k == 0) {
+                    return removeFirst();
+                }
+                Node temp = getNode(k - 1);
+                Node todoDeleted = temp.next;
+                temp.next = temp.next.next;
+                T returnData = todoDeleted.data;
+                if (todoDeleted == tail) {
+                    tail = temp;
+                }
+                size--;
+                return returnData;
+            } else {
+                return null;
+            }
+        }
+
+        public T removeLast() {
+            return remove(size - 1);
+        }
+
+        public int size() {
+            return size;
+        }
+
+        public boolean isEmpty() {
+            return size == 0;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
-        Deque<Integer> deque = new LinkedList<>();
+        LinkedNode<Integer> deque = new LinkedNode<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         StringTokenizer st;
@@ -24,10 +133,10 @@ public class Main {
                     deque.addLast(Integer.parseInt(st.nextToken()));
                     break;
                 case "pop_front":
-                    printValue(deque.pollFirst());
+                    printValue(deque.removeFirst());
                     break;
                 case "pop_back":
-                    printValue(deque.pollLast());
+                    printValue(deque.removeLast());
                     break;
                 case "size":
                     printValue(deque.size());
@@ -36,10 +145,10 @@ public class Main {
                     printValue(deque.isEmpty() ? 1 : 0);
                     break;
                 case "front":
-                    printValue(deque.peekFirst());
+                    printValue(deque.first());
                     break;
                 case "back":
-                    printValue(deque.peekLast());
+                    printValue(deque.last());
                     break;
             }
         }

@@ -1,4 +1,4 @@
-package com.dongholab.algorithm;
+package com.dongholab.a;
 
 import java.util.*;
 import java.util.stream.Collector;

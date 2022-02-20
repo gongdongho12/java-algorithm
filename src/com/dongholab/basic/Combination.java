@@ -1,24 +1,31 @@
 package com.dongholab.basic;
 
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.*;
+
 public class Combination {
     public static void main(String[] args) {
-//        const getCombinations = function (arr, selectNumber) {
-//    const results = [];
-//            if (selectNumber === 1) return arr.map((el) => [el]);
-//            // n개중에서 1개 선택할 때(nC1), 바로 모든 배열의 원소 return
-//
-//            arr.forEach((fixed, index, origin) => {
-//      const rest = origin.slice(index + 1);
-//                // 해당하는 fixed를 제외한 나머지 뒤
-//      const combinations = getCombinations(rest, selectNumber - 1);
-//                // 나머지에 대해서 조합을 구한다.
-//      const attached = combinations.map((el) => [fixed, ...el]);
-//                //  돌아온 조합에 떼 놓은(fixed) 값 붙이기
-//                results.push(...attached);
-//                // 배열 spread syntax 로 모두다 push
-//            });
-//
-//            return results; // 결과 담긴 results return
-//        }
+        int[] arr = {1, 2, 3, 4};
+        List<Integer> list = Arrays.stream(arr).boxed().collect(Collectors.toList());
+        List<List<Integer>> result = combination(list, 2);
+        System.out.println("result" + result);
+    }
+
+    private static <T> List<List<T>> combination(List<T> list, int num) {
+        if (num == 1) {
+            return list.stream().map(v -> Arrays.asList(v)).collect(Collectors.toList());
+        }
+        int length = list.size();
+        List<List<T>> result = new LinkedList<>();
+        for (int i = 0; i < length; i++) {
+            T current = list.get(i);
+            List<T> rest = new LinkedList<>(list.subList(i + 1, length));
+            List<List<T>> combinations = combination(rest, num - 1);
+            List<List<T>> attach = combinations.stream().map((combination) -> List.of(Stream.concat(Stream.of(current), combination.stream())
+                        .toArray(size -> (T[]) Array.newInstance(current.getClass(), size)))).collect(Collectors.toList());
+            result.addAll(attach);
+        }
+        return result;
     }
 }

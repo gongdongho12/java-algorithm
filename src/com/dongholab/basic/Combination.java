@@ -20,10 +20,11 @@ public class Combination {
         List<List<T>> result = new LinkedList<>();
         for (int i = 0; i < length; i++) {
             T current = list.get(i);
-            List<T> rest = new LinkedList<>(list.subList(i + 1, length));
-            List<List<T>> combinations = combination(rest, num - 1);
+            Class<?> classType = current.getClass();
+            List<List<T>> combinations = combination(List.of(list.subList(i + 1, length).toArray(size -> (T[]) Array.newInstance(classType, size))), num - 1);
             List<List<T>> attach = combinations.stream().map((combination) -> List.of(Stream.concat(Stream.of(current), combination.stream())
-                        .toArray(size -> (T[]) Array.newInstance(current.getClass(), size)))).collect(Collectors.toList());
+                        .toArray(size -> (T[]) Array.newInstance(classType, size)))
+            ).collect(Collectors.toList());
             result.addAll(attach);
         }
         return result;

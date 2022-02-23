@@ -53,19 +53,12 @@ public class Main {
         for (int i = 0; i < S; i++) {
             star[i] = Integer.parseInt(st.nextToken()) - 1;
         }
-        int[] notHome = new int[M + S];
-        for (int i = 0; i < M + S; i++) {
-            if (i <= M - 1) {
-                notHome[i] = mac[i];
-            } else {
-                notHome[i] = star[i - M];
-            }
-        }
 
         OptionalInt result = IntStream.range(0, V - 1).mapToObj(home -> {
             if (Arrays.stream(star).filter(s -> s == home).findFirst().isEmpty() && Arrays.stream(mac).filter(m -> m == home).findFirst().isEmpty()) {
-                OptionalInt macLength = Arrays.stream(mac).map(m -> map[home][m]).min();
-                OptionalInt starLength = Arrays.stream(star).map(s -> map[home][s]).min();
+                int[] homeMap = map[home];
+                OptionalInt macLength = Arrays.stream(mac).map(m -> homeMap[m]).min();
+                OptionalInt starLength = Arrays.stream(star).map(s -> homeMap[s]).min();
 
                 if (macLength.isPresent() && starLength.isPresent()) {
                     int macRealLength = macLength.getAsInt();
@@ -76,7 +69,7 @@ public class Main {
                 }
             }
             return null;
-        }).filter(Objects::nonNull).mapToInt(v -> v).min();
+        }).filter(Objects::nonNull).mapToInt(length -> length).min();
 
         System.out.println(result.isPresent() ? result.getAsInt() : -1);
     }

@@ -10,7 +10,7 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-        int[][] dp = new int[N + 1][K + 1];
+        int[][] dp = new int[N][K + 1];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             int onFootTime = Integer.parseInt(st.nextToken());

@@ -13,7 +13,7 @@ class Solution {
             String nextLine = board[row + 1];
             for (int col = 0; col < n - 1; col++) {
                 char current = line.charAt(col);
-                if (current != ' ') {
+                if (current != EMPTY) {
                     char right = line.charAt(col + 1);
                     char bottomRight = nextLine.charAt(col + 1);
                     char bottom = nextLine.charAt(col);

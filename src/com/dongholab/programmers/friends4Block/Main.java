@@ -63,16 +63,7 @@ class Solution {
             }
             return solution(m, n, board);
         } else {
-            Arrays.stream(board).map(line -> line.codePoints()).
-            return Arrays.stream(board).mapToInt(line -> {
-                int sum = 0;
-                for (char singleText : line.toCharArray()) {
-                    if (singleText == EMPTY) {
-                        sum++;
-                    }
-                }
-                return sum;
-            }).sum();
+            return Arrays.stream(board).mapToInt(line -> Math.toIntExact(line.codePoints().filter(code -> Character.valueOf((char) code) == EMPTY).count())).sum();
         }
     }
 }

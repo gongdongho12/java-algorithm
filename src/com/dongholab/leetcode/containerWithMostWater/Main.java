@@ -1,4 +1,4 @@
-package com.dongholab.leetcode;
+package com.dongholab.leetcode.containerWithMostWater;
 
 class Solution {
     public int maxArea(int[] height) {

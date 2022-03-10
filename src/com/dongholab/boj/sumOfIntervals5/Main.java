@@ -9,24 +9,23 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        int[][] arr = new int[N][];
+
+        int[][] dp = new int[N + 1][N + 1];
         for (int i = 0; i < N; i++) {
-            arr[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(v -> Integer.parseInt(v)).toArray();
-        }
-        int sum;
-        for (int k = 0; k < M; k++) {
-            sum = 0;
             st = new StringTokenizer(br.readLine());
-            int x1 = Integer.parseInt(st.nextToken());
-            int y1 = Integer.parseInt(st.nextToken());
-            int x2 = Integer.parseInt(st.nextToken());
-            int y2 = Integer.parseInt(st.nextToken());
-            for (int i = x1; i <= x2; i++) {
-                for (int j = y1; j <= y2; j++) {
-                    sum += arr[i - 1][j - 1];
-                }
+            for (int j = 0; j < N; j++) {
+                int num = Integer.parseInt(st.nextToken());
+                dp[i + 1][j + 1] = dp[i][j + 1] + dp[i + 1][j] - dp[i][j] + num;
             }
-            System.out.println(sum);
+        }
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int x1 = Integer.parseInt(st.nextToken()) - 1;
+            int y1 = Integer.parseInt(st.nextToken()) - 1;
+            int x2 = Integer.parseInt(st.nextToken()) - 1;
+            int y2 = Integer.parseInt(st.nextToken()) - 1;
+            System.out.println(dp[x2 + 1][y2 + 1] - dp[x2 + 1][y1] - dp[x1][y2 + 1] + dp[x1][y1]);
         }
     }
 }
